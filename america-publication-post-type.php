@@ -29,9 +29,9 @@ class America_Publication_Post_Type {
 
   		register_activation_hook( __FILE__, 		 	array( $this, 'appt_activate' ) );
 
-		add_action( 'init', 						 	array( $this, 'appt_load_plugin_textdomain' ) );
 		add_action( 'init',							 	array( $this, 'appt_init' ) );
 		add_action( 'admin_init',					 	array( $this, 'appt_admin_init' ) );
+		add_action( 'admin_init', 						array( $this, 'appt_enqueue_styles' ) );
 		add_action( 'pre_get_posts', 				 	array( $this, 'appt_publication_items' ) );
 				
 		add_filter( 'genesis_post_info', 			 	array( $this, 'appt_publication_post_info_meta' ) );
@@ -124,12 +124,22 @@ class America_Publication_Post_Type {
 		load_plugin_textdomain ( 'america', FALSE, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 	}
 
+
+	/**
+	 * load styles
+	 */
+	function appt_enqueue_styles() {
+		wp_register_style( 'appt_style', plugins_url( 'styles.css', __FILE__) );
+		wp_enqueue_style( 'appt_style' );
+	}
+
 	/**
 	 * Initialize plugin
 	 * 
 	 * @return function calls
 	 */
 	function appt_init() {
+		$this->appt_load_plugin_textdomain();
 		$this->appt_create_publication_post_type();
 		$this->appt_create_publication_type_taxonomy();
 		$this->appt_activate_shortcode();
