@@ -1,0 +1,1 @@
+# america-publication-post-type
