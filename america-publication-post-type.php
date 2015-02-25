@@ -50,7 +50,7 @@ class America_Publication_Post_Type {
 
 
 	/**
-	 * Check for plugin dependenciise
+	 * Check for plugin dependencies
 	 * @return void
 	 */
 	function appt_check_dependencies() {
@@ -89,7 +89,7 @@ class America_Publication_Post_Type {
            deactivate_plugins( plugin_basename( __FILE__ ) );
            add_action( 'admin_notices', array( $this, 'appt_self_deactivate_notice' ) );
        }
-   }
+    }
 
    // Show user message
    function appt_self_deactivate_notice() {
@@ -111,7 +111,7 @@ class America_Publication_Post_Type {
 		}
 
 		// Flush rewrite rules so that users can access custom post types on the front-end right away
-		// flush_rewrite_rules( false );  
+		// flush_rewrite_rules( false );
 	} 
 
 	//* Deactivate the plugin
