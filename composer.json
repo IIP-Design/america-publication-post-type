@@ -1,4 +1,8 @@
 {
+    "type": "wprdpress-plugin",
     "name": "iip-design/america-publication-post-type",
-    "description" : "Custom Publication Post Type"
+    "description" : "Custom Publication Post Type",
+    "require": {
+       "composer/installers": "~1.0"
+    }
 }
