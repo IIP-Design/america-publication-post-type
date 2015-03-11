@@ -1,7 +1,14 @@
 {
-    "type": "wordpress-plugin",
     "name": "iip-design/america-publication-post-type",
+    "type": "wordpress-plugin",
     "description" : "Custom Publication Post Type",
+    "authors": [
+        {
+            "name": "Office of Design, Bureau of International Information Programs",
+            "email": "reganta@america.gov"
+        }
+    ],
+    "minimum-stability": "stable",
     "require": {
        "composer/installers": "~1.0"
     }
