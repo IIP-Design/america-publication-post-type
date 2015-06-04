@@ -143,7 +143,6 @@ class America_Publication_Post_Type {
 		$this->appt_create_publication_post_type();
 		$this->appt_create_publication_type_taxonomy();
 		$this->appt_activate_shortcode();
-		$this->appt_add_image();
 	}
 
 	/**
@@ -306,7 +305,7 @@ class America_Publication_Post_Type {
 	    add_shortcode( 'publication_type', array( $this, 'appt_publication_type_shortcode' ) );
 	}
 
-  
+
 	/**
 	 * Include Publication Post Type in author, category, and tag archive pages
 	 */
