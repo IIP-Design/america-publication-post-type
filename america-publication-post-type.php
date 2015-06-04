@@ -2,7 +2,7 @@
 /**********************************************************************************************************************************
 
  Creates Publication Custom Post Type and related features
-  
+
  Plugin Name: 	  America Publication Post Type
  Description:     This plugin creates the publication custom post type and associated taxonmies and shortcodes
  Version:         0.0.1
@@ -10,10 +10,10 @@
  License:         GPL-2.0+
  Text Domain:     america
  Domain Path:     /languages
- 
+
  ********************************************************************************************************************************** */
 
- 
+
 //* Prevent loading this file directly
 defined( 'ABSPATH' ) || exit;
 
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
 class America_Publication_Post_Type {
 
 	private $appt_publication_settings;
-	
+
 	const VERSION = '0.0.1';
 
 	function bootstrap() {
@@ -33,7 +33,7 @@ class America_Publication_Post_Type {
 		add_action( 'admin_init',					 	array( $this, 'appt_admin_init' ) );
 		add_action( 'admin_init', 						array( $this, 'appt_enqueue_styles' ) );
 		add_action( 'pre_get_posts', 				 	array( $this, 'appt_publication_items' ) );
-				
+
 		add_filter( 'genesis_post_info', 			 	array( $this, 'appt_publication_post_info_meta' ) );
 		add_filter( 'genesis_post_meta', 			 	array( $this, 'appt_publication_post_info_meta' ) );
 		add_filter( 'rwmb_meta_boxes', 				 	array( $this, 'appt_register_meta_boxes' ) );
@@ -67,12 +67,12 @@ class America_Publication_Post_Type {
 		if ( version_compare( wp_get_theme( 'genesis' )->get( 'Version' ), $latest, '<' ) ) {
 
 			//* Deactivate ourself
-			deactivate_plugins( plugin_basename( __FILE__ ) ); 
+			deactivate_plugins( plugin_basename( __FILE__ ) );
 			wp_die( sprintf( __( 'Sorry, you cannot activate without <a href="%s">Genesis %s</a> or greater', 'america' ), 'http://www.studiopress.com/support/showthread.php?t=19576', $latest ) );
 
 		}
 
-        /* 
+        /*
         // do nothing if class meta-box exists - TODO: remove fatal error msg (turn off debugging) - tgm library
         if ( ! class_exists( 'RW_Meta_Box' ) ) {
             trigger_error( 'This plugin requires meta-box. Please install and activate meta-box before activating this plugin.', E_USER_ERROR );
@@ -83,7 +83,7 @@ class America_Publication_Post_Type {
 	/* Deactivate if meta-box is deactivated or removed (NOTE: works intermittently - test thoroughly before turning on)
 
 	add_action( 'plugins_loaded', array( $this, 'appt_maybe_self_deactivate' ) );
-	function appt_maybe_self_deactivate() { 
+	function appt_maybe_self_deactivate() {
 		if ( ! class_exists( 'RW_Meta_Box' ) ) {
            require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
            deactivate_plugins( plugin_basename( __FILE__ ) );
@@ -100,7 +100,7 @@ class America_Publication_Post_Type {
  	/**
  	 * Activate plugin - check for dependencies & create post ype
  	 * flush-rewrite rules is behaving oddly - re-save permalinks in admin until fixed
- 	 * 
+ 	 *
  	 * @return function call
  	 */
 	function appt_activate() {
@@ -112,7 +112,7 @@ class America_Publication_Post_Type {
 
 		// Flush rewrite rules so that users can access custom post types on the front-end right away
 		// flush_rewrite_rules( false );
-	} 
+	}
 
 	//* Deactivate the plugin
 	function appt_deactivate() {
@@ -135,7 +135,7 @@ class America_Publication_Post_Type {
 
 	/**
 	 * Initialize plugin
-	 * 
+	 *
 	 * @return function calls
 	 */
 	function appt_init() {
@@ -148,7 +148,7 @@ class America_Publication_Post_Type {
 
 	/**
 	 * Run general admin initialization methods
-	 * 
+	 *
 	 * @return function call
 	 */
 	function appt_admin_init() {
@@ -157,7 +157,7 @@ class America_Publication_Post_Type {
 
 	/**
 	 * Only add action after user with correct privilegeds is verified
-	 * 
+	 *
 	 * @return function call
 	 */
 	function appt_check_for_user() {
@@ -168,7 +168,7 @@ class America_Publication_Post_Type {
 
 	/**
 	 * Add Settings link under plugin on plugins page (link also appears on General Settings menu)
-	 * 
+	 *
 	 * @param  array $links Current links
 	 * @return array        Current links + Settings link
 	 */
@@ -180,11 +180,11 @@ class America_Publication_Post_Type {
 
  	/**
  	 * Create Publication custom post type
- 	 * 
+ 	 *
  	 * @return function call
  	 */
-	function appt_create_publication_post_type() { 
-	    
+	function appt_create_publication_post_type() {
+
 	    $labels = array(
 	        'name'          		=> __( 'Publications', 'america' ),
 			'singular_name' 		=> __( 'Publication', 'america' ),
@@ -201,7 +201,7 @@ class America_Publication_Post_Type {
 			'name_admin_bar'        => 'Publication',
 			'menu_name'				=> 'Publications',
 	    );
-	    
+
 	    $args = array(
 	        'labels'             => $labels,
 	        'public'             => true,
@@ -216,17 +216,17 @@ class America_Publication_Post_Type {
 	        'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'custom-fields', 'revisions', 'genesis-seo', 'genesis-cpt-archives-settings' ),
 	        'taxonomies'   	     => array( 'publication-type', 'category', 'post_tag' ),
 	    );
-		
+
 		register_post_type( 'publication', $args );
 	}
 
 	/**
 	 * Create Publication Type custom taxonomy
-	 * 
+	 *
 	 * @return function call
 	 */
 	function appt_create_publication_type_taxonomy() {  // TODO: this should handle multiple custom taxonomies
-	   
+
 	    $labels = array(
 	        'name'                       => _x( 'Types', 'Publication types', 'america' ),
 	        'singular_name'              => __( 'Type', 'america' ),
@@ -257,7 +257,7 @@ class America_Publication_Post_Type {
 
 	/**
 	 * Customize Publication post info and post meta
-	 * 
+	 *
 	 */
 	function appt_publication_post_info_meta( $output ) {
 
@@ -270,7 +270,7 @@ class America_Publication_Post_Type {
 	/**
 	 * Add Custom Meta Box to Publication Post Type to associate a file for download
 	 * (pdf to start with, since that's all that's on IIP Digital)
-	*/ 
+	*/
 	function appt_register_meta_boxes( $meta_boxes ) {
 	    $prefix = 'rw_';
 
@@ -306,16 +306,8 @@ class America_Publication_Post_Type {
 	    add_shortcode( 'publication_type', array( $this, 'appt_publication_type_shortcode' ) );
 	}
 
+  
 	/**
-	 * Add publication image size 
-	 * This should be made configurable
-	 */
-	function appt_add_image() {
-		add_image_size( 'publication', 424, 530, TRUE );  // TODO: should be a setting
-	}
-
-
-	/** 
 	 * Include Publication Post Type in author, category, and tag archive pages
 	 */
 	function appt_add_publication_to_archive( &$query ) {
@@ -330,15 +322,15 @@ class America_Publication_Post_Type {
 		}
 	}
 
- 	/** 
+ 	/**
  	 * Change the number of publication items to be displayed (props Bill Erickson)
  	 * Added configurable pubs per page -- fetched from settings class
  	 */
 	function appt_publication_items( $query ) {
 		$settings = $this->appt_publication_settings;
-		
+
 		if( ! empty( $settings ) ) {
-			$num_pubs = $settings->get_pubs_per_page();	
+			$num_pubs = $settings->get_pubs_per_page();
 		}
 
 	    if( $query->is_main_query() && !is_admin() && is_post_type_archive( 'publication' ) ) {
@@ -403,7 +395,7 @@ class America_Publication_Post_Type {
 		if ( empty( $types ) )
 		  return;
 
-		if ( genesis_html5() )   
+		if ( genesis_html5() )
 		  $output = sprintf( '<span %s>', genesis_attr( 'entry-publication-type' ) ) . $types . '</span>';
 		else
 		  $output = '<span class="entry-publication-type">' . $terms . '</span>';
@@ -412,10 +404,9 @@ class America_Publication_Post_Type {
 
 	}
 
-} 
+}
 
 // Initialize America_Publication_Post_Type plugin
 global $america_publication_post_type;
 $america_publication_post_type = new America_Publication_Post_Type();
 $america_publication_post_type->bootstrap();
-

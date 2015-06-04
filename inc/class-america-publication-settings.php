@@ -7,7 +7,7 @@
  **************************************************************** */
 
 if( !class_exists( 'America_Publication_Settings' ) ) {
-    
+
     class America_Publication_Settings {
 
         public $settings                = array ();
@@ -33,13 +33,12 @@ if( !class_exists( 'America_Publication_Settings' ) ) {
                 'std'                           => '',                                          // the default value for this setting
                 'type'                          => 'text',                                      // the HTML form element to use
                 'section'                       => 'appt_main',                                 // the section this setting belongs to — must match the array key of a section in appt_options_form_sections()
-                'class'                         => ''                                           // the form element class. Also used for validation purposes (see appt_sanitize function) 
+                'class'                         => ''                                           // the form element class. Also used for validation purposes (see appt_sanitize function)
             );
 
             // populate with reasonable defaults for plugin options
             $this->default_options = array (
                 'appt_publications_per_page'    => 12,                                          // number of pubs per page
-                'appt_publication_image_size'   => array( 424, 530 )                            // (currently not implemented) publication image size
             );
 
             add_action( 'admin_menu', array( $this, 'appt_add_options_page' ) );
@@ -54,13 +53,13 @@ if( !class_exists( 'America_Publication_Settings' ) ) {
         //add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $function );
         function appt_add_options_page ()  {
 
-            // Display Publication Settings Page link under the "Appearance" Admin 
+            // Display Publication Settings Page link under the "Appearance" Admin
             // (also appears in a Settings link on the Plugins page)
             add_options_page (
-                'Publication Settings', 
-                'Publication Settings', 
-                'manage_options', 
-                self::PAGE_SLUG, 
+                'Publication Settings',
+                'Publication Settings',
+                'manage_options',
+                self::PAGE_SLUG,
                 array( $this, 'create_admin_page' )
             );
         }
@@ -69,13 +68,13 @@ if( !class_exists( 'America_Publication_Settings' ) ) {
          * Register settings and its sanitization callback
          * @return function call
          */
-        function appt_register_settings() {   
+        function appt_register_settings() {
 
             $settings           = $this->settings;
             $option_name        = $this->settings['appt_option_name'];
 
             add_option( $option_name );
-     
+
             // Register an array that will house all options -- only adds 1 option to db
             register_setting( $option_name, $option_name, array( $this, 'appt_sanitize' ) );
 
@@ -85,7 +84,7 @@ if( !class_exists( 'America_Publication_Settings' ) ) {
                     add_settings_section( $id, $title, array( $this, 'appt_print_section_info' ), self::PAGE_SLUG );
                 }
             }
-    
+
             // add form fields
             if( !empty( $settings['appt_form_fields'] ) ) {
                 foreach ( $settings['appt_form_fields'] as $option ) {
@@ -101,23 +100,23 @@ if( !class_exists( 'America_Publication_Settings' ) ) {
          * @return array
          */
         function appt_options_form_sections() {
-             
+
             // use sections array to add page sections if needed
             // add to sections array to add more sections
             // i.e. $sections['txtarea_section']    = __('Textarea Form Fields', 'america');
             $sections = array();
             $sections['appt_main'] = __('General', 'america');
-            return $sections;   
+            return $sections;
         }
 
          /**
          * Options: id, title, desc, std, class, type and section
-         * If an option is excluded, field will use default value (see $defaults array in appt_create_settings_field method) 
-         * 
+         * If an option is excluded, field will use default value (see $defaults array in appt_create_settings_field method)
+         *
          * For additional form fields, add to the options[] array
          * For example
          * $options[] = array(
-         *    "section" => "txt_section",                                                           // section form field should appear in (section addedd in appt_options_form_sections method)                              
+         *    "section" => "txt_section",                                                           // section form field should appear in (section addedd in appt_options_form_sections method)
          *    "id"      => 'app_prefix' . "_nohtml_txt_input",                                      // for this plugin we used 'appt'
          *    "title"   => __( 'No HTML!', 'wamerica' ),                                            // form label
          *    "desc"    => __( 'A text input field where no html input is allowed.', 'america' ),   // description, leave blank if none needed
@@ -125,18 +124,18 @@ if( !class_exists( 'America_Publication_Settings' ) ) {
          *    "std"     => __('Some default value','wamerica'),                                     // default
          *    "class"   => "nohtml"                                                                 // used to deterine validation
          * )
-         * 
-         * Current accepted values for type and class options: 
+         *
+         * Current accepted values for type and class options:
          * type: text (update validation routine in appt_sanitize method if other types are added (i.e. textarea, select, etc.))
          * class: numeric (update validation routine in appt_sanitize method if other classes are added (i.e. url, email etc.))
-         * 
+         *
          * @return array options for a form field
          */
         function appt_options_form_fields() {
             $options[] = array (
                 "id"      => "appt_publications_per_page",
                 "title"   => __( 'Publications per page', 'america' ),
-                "desc"    => '',              
+                "desc"    => '',
                 "std"     => "12",
                 "class"   => "numeric"
             );
@@ -153,11 +152,11 @@ if( !class_exists( 'America_Publication_Settings' ) ) {
          * @return function call
          */
         function appt_create_settings_field( $args = array() ) {
-           
+
             // "extract" to be able to use the array keys as variables in our function output below
-            // wp_parse_args is a generic utility for merging together an array of arguments and an array of default values. 
+            // wp_parse_args is a generic utility for merging together an array of arguments and an array of default values.
             extract( wp_parse_args( $args, $this->default_settings  ) );
-             
+
             // additional arguments for use in form field output in the function appt_form_field
             $field_args = array (
                 'type'      => $type,
@@ -167,7 +166,7 @@ if( !class_exists( 'America_Publication_Settings' ) ) {
                 'label_for' => $id,
                 'class'     => $class
             );
-         
+
             add_settings_field( $id, $title, array( $this, 'appt_form_field' ), self::PAGE_SLUG, $section, $field_args );
         }
 
@@ -179,11 +178,11 @@ if( !class_exists( 'America_Publication_Settings' ) ) {
         function appt_form_field ( $args = array() ) {
 
             extract( $args );
-     
+
             // get the settings sections array
             $appt_option_name   = $this->settings['appt_option_name'];
             $options            = get_option( $appt_option_name );
-             
+
             // pass the standard value if the option is not yet set in the database
             if ( !isset( $options[$id] ) ) {
                 $options[$id] = $std;
@@ -191,7 +190,7 @@ if( !class_exists( 'America_Publication_Settings' ) ) {
 
             // additional field class. output only if the class is defined in the create_setting arguments
             $field_class = ( $class != '' ) ? ' ' . $class : '';
-            
+
             // switch html display based on the setting type.
             switch ( $type ) {
                 case 'text':
@@ -205,12 +204,12 @@ if( !class_exists( 'America_Publication_Settings' ) ) {
 
         /**
          * Validates input based on class and type values entered in $options[] array
-         * 
+         *
          * @param  (array)
          * @return function call
          */
         function appt_sanitize( $input ) {
-           
+
             // for enhanced security, create a new empty array
             $valid_input = array();
 
@@ -218,12 +217,12 @@ if( !class_exists( 'America_Publication_Settings' ) ) {
 
             foreach ( $fields as $field ) {
 
-                $id = $input[$field['id']]; 
-                
-                // determine validation based on the class entered in           
+                $id = $input[$field['id']];
+
+                // determine validation based on the class entered in
                 switch ( $field['class'] ) {
                     // validate for numeric fields
-                    case 'numeric':      
+                    case 'numeric':
 
                         $id  = trim($id); // trim whitespace
                         $valid_input[$field['id']] = ( is_numeric( $id ) ) ? (int) $id : $field['std'];                                             // reset to default value
@@ -262,45 +261,45 @@ if( !class_exists( 'America_Publication_Settings' ) ) {
             ?>
             <div class="wrap">
                 <h2><?php echo $settings['appt_page_title']; ?></h2>
-                 
+
                 <form action="options.php" method="post">
-                   <?php 
+                   <?php
                     // http://codex.wordpress.org/Function_Reference/settings_fields
-                    settings_fields( $settings['appt_option_name'] ); 
-                     
+                    settings_fields( $settings['appt_option_name'] );
+
                     // http://codex.wordpress.org/Function_Reference/do_settings_sections
-                    do_settings_sections( self::PAGE_SLUG ); 
+                    do_settings_sections( self::PAGE_SLUG );
                     ?>
                     <p class="submit">
                         <input name="Submit" type="submit" class="button-primary" value="<?php esc_attr_e('Save Changes','america'); ?>" />
                     </p>
-                     
+
                 </form>
             </div><!-- wrap -->
             <?php
         }
 
-        /** 
-         * 
+        /**
+         *
          * Getters and Setters will need to be customized per theme
-         *   
+         *
          */
-           
+
         /**
          * Returns number of publication to display per pag
-         * 
+         *
          * @return string Number of publication to display per page
          */
         function get_pubs_per_page () {
             $options = get_option( $this->option_name );
-            
+
             if ( !empty( $options['appt_publications_per_page'] ) ) {
                 return $options['appt_publications_per_page'];
             } else {
                 return $this->default_options['appt_publications_per_page'];
             }
         }
-        
+
     }
-   
-} 
+
+}
