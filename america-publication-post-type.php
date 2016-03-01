@@ -213,7 +213,7 @@ class America_Publication_Post_Type {
 	        'hierarchical'       => true,
 	        'menu_position'      => 3,
 	        'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'custom-fields', 'revisions', 'genesis-seo', 'genesis-cpt-archives-settings', 'excerpt' ),
-	        'taxonomies'   	     => array( 'publication-type', 'category', 'post_tag' ),
+	        'taxonomies'   	     => array( 'publication_type', 'category', 'post_tag' ),
 	    );
 
 		register_post_type( 'publication', $args );
@@ -244,7 +244,7 @@ class America_Publication_Post_Type {
 	        'show_admin_column'     => true,
 	    );
 
-		register_taxonomy( 'publication-type', 'publication', $args );
+		register_taxonomy( 'publication_type', 'publication', $args );
 	}
 
 	/**
@@ -381,7 +381,7 @@ class America_Publication_Post_Type {
 		  'after'    => '',
 		  'before'   => __( 'Type: ', 'genesis' ),
 		  'sep'      => ', ',
-		  'taxonomy' => 'publication-type',
+		  'taxonomy' => 'publication_type',
 		);
 
 		$atts = shortcode_atts( $defaults, $atts, 'publication_type' );
@@ -395,9 +395,9 @@ class America_Publication_Post_Type {
 		  return;
 
 		if ( genesis_html5() )
-		  $output = sprintf( '<span %s>', genesis_attr( 'entry-publication-type' ) ) . $types . '</span>';
+		  $output = sprintf( '<span %s>', genesis_attr( 'entry-publication_type' ) ) . $types . '</span>';
 		else
-		  $output = '<span class="entry-publication-type">' . $terms . '</span>';
+		  $output = '<span class="entry-publication_type">' . $terms . '</span>';
 
 		return apply_filters( 'genesis_post_terms_shortcode', $output, $types, $atts );
 
