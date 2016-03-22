@@ -212,7 +212,7 @@ class America_Publication_Post_Type {
 	        'has_archive'        => true,
 	        'hierarchical'       => true,
 	        'menu_position'      => 3,
-	        'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'custom-fields', 'revisions', 'genesis-seo', 'genesis-cpt-archives-settings', 'excerpt' ),
+	        'supports'           => array( 'title', 'editor', 'author', 'thumbnail', 'revisions', 'genesis-seo', 'genesis-cpt-archives-settings', 'excerpt' ),
 	        'taxonomies'   	     => array( 'publication_type', 'category', 'post_tag' ),
 	    );
 
