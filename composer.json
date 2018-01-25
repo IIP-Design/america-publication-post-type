@@ -1,5 +1,5 @@
 {
-    "name": "usstatedept/america-publication-post-type",
+    "name": "iip-design/america-publication-post-type",
     "type": "wordpress-plugin",
     "description" : "Custom Publication Post Type",
     "authors": [
